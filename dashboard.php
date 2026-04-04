@@ -181,7 +181,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
                     </button>
                 </div>
                 <div class="px-2">
-                    <form id="addForm" action="add_entry.php" method="POST" enctype="multipart/form-data">
+                    <form id="addForm" action="pages/add_entry.php" method="POST" enctype="multipart/form-data">
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                             <!-- Left Column - Basic Info -->
                             <div class="space-y-4">

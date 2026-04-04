@@ -61,7 +61,10 @@ function getCurrentUser() {
 }
 
 // Function to upload image
-function uploadImage($file, $targetDir = 'uploads/') {
+function uploadImage($file, $targetDir = null) {
+    if ($targetDir === null) {
+        $targetDir = __DIR__ . '/../uploads/';
+    }
     if (!isset($file) || $file['error'] != 0) {
         return ['error' => 'No file uploaded or upload error'];
     }
@@ -79,7 +82,8 @@ function uploadImage($file, $targetDir = 'uploads/') {
     $targetFile = $targetDir . $fileName;
 
     if (move_uploaded_file($file['tmp_name'], $targetFile)) {
-        return ['success' => $targetFile];
+        // Return path relative to web root
+        return ['success' => 'uploads/' . $fileName];
     }
     return ['error' => 'Failed to move uploaded file'];
 }

@@ -2,6 +2,9 @@
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/db.php';
 
+// Get type from URL parameter to pre-select
+$preselectedType = isset($_GET['type']) ? $_GET['type'] : '';
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $type = $_POST['type'];
     $title = trim($_POST['title']);
@@ -75,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <label class="block text-sm font-medium text-gray-700 mb-2">Entry Type</label>
                         <div class="grid grid-cols-2 gap-3">
                             <label class="relative">
-                                <input type="radio" name="type" value="manhwa" required class="sr-only peer">
+                                <input type="radio" name="type" value="manhwa" required class="sr-only peer" <?php echo $preselectedType === 'manhwa' ? 'checked' : ''; ?>>
                                 <div class="p-3 border border-gray-300 rounded cursor-pointer peer-checked:border-gray-900 peer-checked:bg-gray-50 hover:border-gray-400 transition-colors">
                                     <div class="flex items-center">
                                         <svg class="w-4 h-4 text-gray-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -86,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 </div>
                             </label>
                             <label class="relative">
-                                <input type="radio" name="type" value="movie" required class="sr-only peer">
+                                <input type="radio" name="type" value="movie" required class="sr-only peer" <?php echo $preselectedType === 'movie' ? 'checked' : ''; ?>>
                                 <div class="p-3 border border-gray-300 rounded cursor-pointer peer-checked:border-gray-900 peer-checked:bg-gray-50 hover:border-gray-400 transition-colors">
                                     <div class="flex items-center">
                                         <svg class="w-4 h-4 text-gray-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -55,10 +55,6 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                     My Movies
                 </a>
-                <a href="?page=add" class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 <?php echo $page == 'add' ? 'bg-gray-200' : ''; ?>">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                    Add Entry
-                </a>
                 <a href="?page=favorites" class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 <?php echo $page == 'favorites' ? 'bg-gray-200' : ''; ?>">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
                     Favorites
@@ -113,9 +109,6 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
                         break;
                     case 'movies':
                         include 'pages/movies.php';
-                        break;
-                    case 'add':
-                        include 'pages/add_entry.php';
                         break;
                     case 'favorites':
                         include 'pages/favorites.php';
@@ -175,6 +168,152 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
         </div>
     </div>
 
+    <!-- Add Entry Modal -->
+    <div id="addModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
+        <div class="relative top-20 mx-auto p-5 border w-full max-w-2xl shadow-lg rounded-md bg-white max-h-[90vh] overflow-y-auto">
+            <div class="mt-3">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-medium text-gray-900">Add New Entry</h3>
+                    <button onclick="closeAddModal()" class="text-gray-400 hover:text-gray-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="px-2">
+                    <form id="addForm" action="add_entry.php" method="POST" enctype="multipart/form-data">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <!-- Left Column - Basic Info -->
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Entry Type</label>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <label class="relative">
+                                            <input type="radio" name="type" value="manhwa" id="addTypeManhwa" required class="sr-only peer">
+                                            <div class="p-3 border border-gray-300 rounded cursor-pointer peer-checked:border-gray-900 peer-checked:bg-gray-50 hover:border-gray-400 transition-colors">
+                                                <div class="flex items-center">
+                                                    <svg class="w-4 h-4 text-gray-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                                    </svg>
+                                                    <span class="text-sm font-medium text-gray-900">Manhwa</span>
+                                                </div>
+                                            </div>
+                                        </label>
+                                        <label class="relative">
+                                            <input type="radio" name="type" value="movie" id="addTypeMovie" required class="sr-only peer">
+                                            <div class="p-3 border border-gray-300 rounded cursor-pointer peer-checked:border-gray-900 peer-checked:bg-gray-50 hover:border-gray-400 transition-colors">
+                                                <div class="flex items-center">
+                                                    <svg class="w-4 h-4 text-gray-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                                    </svg>
+                                                    <span class="text-sm font-medium text-gray-900">Movie</span>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label for="addTitle" class="block text-sm font-medium text-gray-700 mb-2">Title</label>
+                                    <input type="text" id="addTitle" name="title" required
+                                           class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-1 focus:ring-gray-900 focus:border-gray-900 transition-colors text-sm"
+                                           placeholder="Enter the title...">
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <label class="relative">
+                                            <input type="radio" name="status" value="ongoing" checked class="sr-only peer">
+                                            <div class="p-2 border border-gray-300 rounded cursor-pointer peer-checked:border-gray-900 peer-checked:bg-gray-50 hover:border-gray-400 transition-colors">
+                                                <div class="flex items-center justify-center">
+                                                    <svg class="w-4 h-4 text-gray-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                    </svg>
+                                                    <span class="text-sm font-medium text-gray-900">Ongoing</span>
+                                                </div>
+                                            </div>
+                                        </label>
+                                        <label class="relative">
+                                            <input type="radio" name="status" value="completed" class="sr-only peer">
+                                            <div class="p-2 border border-gray-300 rounded cursor-pointer peer-checked:border-gray-900 peer-checked:bg-gray-50 hover:border-gray-400 transition-colors">
+                                                <div class="flex items-center justify-center">
+                                                    <svg class="w-4 h-4 text-gray-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                                                    </svg>
+                                                    <span class="text-sm font-medium text-gray-900">Completed</span>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label for="addRating" class="block text-sm font-medium text-gray-700 mb-2">Rating (1-10)</label>
+                                    <select id="addRating" name="rating" class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-1 focus:ring-gray-900 focus:border-gray-900 transition-colors text-sm">
+                                        <option value="">No rating</option>
+                                        <option value="1">1 - Poor</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5 - Average</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10 - Excellent</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Right Column - Image and Remarks -->
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Cover Image</label>
+                                    <div class="border border-dashed border-gray-300 rounded p-4 text-center hover:border-gray-400 transition-colors">
+                                        <input type="file" id="addImage" name="image" accept="image/*" class="hidden" onchange="previewAddImage(event)">
+                                        <label for="addImage" class="cursor-pointer">
+                                            <svg class="w-8 h-8 text-gray-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                            </svg>
+                                            <p class="text-gray-600 text-sm mb-1">Click to upload cover image</p>
+                                            <p class="text-xs text-gray-500">PNG, JPG, GIF up to 5MB</p>
+                                        </label>
+                                    </div>
+                                    <div id="addImagePreview" class="mt-3 hidden">
+                                        <img id="addPreviewImg" src="" alt="Preview" class="w-full h-32 object-cover rounded border">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label for="addRemarks" class="block text-sm font-medium text-gray-700 mb-2">Personal Notes</label>
+                                    <textarea id="addRemarks" name="remarks" rows="4"
+                                              class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-1 focus:ring-gray-900 focus:border-gray-900 transition-colors resize-none text-sm"
+                                              placeholder="Add your thoughts, reviews, or notes about this entry..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="mt-6 pt-4 border-t border-gray-200">
+                            <div class="flex justify-end space-x-3">
+                                <button type="button" onclick="closeAddModal()" class="px-4 py-2 border border-gray-300 rounded text-gray-700 hover:bg-gray-50 transition-colors text-sm">
+                                    Cancel
+                                </button>
+                                <button type="submit" class="px-6 py-2 bg-gray-900 text-white rounded hover:bg-gray-800 focus:ring-1 focus:ring-gray-900 focus:ring-offset-1 transition-colors flex items-center text-sm">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                    </svg>
+                                    Add Entry
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         function openModal(id, title, status, rating, remarks) {
             document.getElementById('editId').value = id;
@@ -188,6 +327,48 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
         function closeModal() {
             document.getElementById('editModal').classList.add('hidden');
         }
+
+        function openAddModal(type) {
+            // Reset form
+            document.getElementById('addForm').reset();
+            document.getElementById('addImagePreview').classList.add('hidden');
+            
+            // Pre-select the type
+            if (type === 'manhwa') {
+                document.getElementById('addTypeManhwa').checked = true;
+            } else if (type === 'movie') {
+                document.getElementById('addTypeMovie').checked = true;
+            }
+            
+            document.getElementById('addModal').classList.remove('hidden');
+        }
+
+        function closeAddModal() {
+            document.getElementById('addModal').classList.add('hidden');
+        }
+
+        function previewAddImage(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('addImagePreview');
+            const previewImg = document.getElementById('addPreviewImg');
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    preview.classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.classList.add('hidden');
+            }
+        }
+
+        // Handle form submission to stay on current page
+        document.getElementById('addForm').addEventListener('submit', function(e) {
+            // Let the form submit normally, but we might want to handle success/error
+            // For now, just let it submit to add_entry.php
+        });
     </script>
 </body>
 </html>

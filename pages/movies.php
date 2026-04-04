@@ -35,10 +35,11 @@ try {
 
 <div class="flex justify-between items-center mb-6">
     <h2 class="text-lg font-semibold">My Movies</h2>
-    <div class="flex space-x-2">
-        <a href="?page=movies&filter=all" class="px-3 py-1 text-sm bg-gray-200 rounded <?php echo $filter == 'all' ? 'bg-indigo-600 text-white' : ''; ?>">All</a>
-        <a href="?page=movies&filter=ongoing" class="px-3 py-1 text-sm bg-gray-200 rounded <?php echo $filter == 'ongoing' ? 'bg-indigo-600 text-white' : ''; ?>">Ongoing</a>
-        <a href="?page=movies&filter=completed" class="px-3 py-1 text-sm bg-gray-200 rounded <?php echo $filter == 'completed' ? 'bg-indigo-600 text-white' : ''; ?>">Completed</a>
+    <div class="flex space-x-2 items-center">
+        <button onclick="openAddModal('movie')" class="px-3 py-1 text-sm bg-gray-900 text-white rounded hover:bg-gray-800 transition-colors">Add Entry</button>
+        <a href="?page=movies&filter=all" class="px-3 py-1 text-sm bg-gray-200 rounded <?php echo $filter == 'all' ? 'bg-gray-900 text-white' : ''; ?>">All</a>
+        <a href="?page=movies&filter=ongoing" class="px-3 py-1 text-sm bg-gray-200 rounded <?php echo $filter == 'ongoing' ? 'bg-gray-900 text-white' : ''; ?>">Ongoing</a>
+        <a href="?page=movies&filter=completed" class="px-3 py-1 text-sm bg-gray-200 rounded <?php echo $filter == 'completed' ? 'bg-gray-900 text-white' : ''; ?>">Completed</a>
     </div>
 </div>
 

@@ -25,12 +25,20 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
     <div class="flex h-screen">
         <!-- Sidebar -->
         <div class="w-64 bg-white shadow-lg fixed h-full">
+            <!-- Logo Section -->
+            <div class="p-4 border-b text-center">
+                <h1 class="text-xl font-bold text-indigo-600">Plotoryx</h1>
+                <svg class="w-8 h-8 mx-auto mt-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                </svg>
+            </div>
+            <!-- Profile Card -->
             <div class="p-4 border-b">
                 <div class="flex items-center">
                     <img src="<?php echo $user['profile_picture'] ? $user['profile_picture'] : 'https://via.placeholder.com/40'; ?>" alt="Profile" class="w-10 h-10 rounded-full mr-3">
-                    <div>
-                        <p class="text-sm font-medium"><?php echo htmlspecialchars($user['name']); ?></p>
-                        <p class="text-xs text-gray-500"><?php echo htmlspecialchars($user['email']); ?></p>
+                    <div class="min-w-0 flex-1">
+                        <p class="text-sm font-medium truncate"><?php echo htmlspecialchars($user['name']); ?></p>
+                        <p class="text-xs text-gray-500 truncate"><?php echo htmlspecialchars($user['email']); ?></p>
                     </div>
                 </div>
             </div>

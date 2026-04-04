@@ -26,8 +26,11 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
         <!-- Sidebar -->
         <div class="w-64 bg-white shadow-lg fixed h-full">
             <!-- Logo Section -->
-            <div class="p-4 border-b text-center">
-                <img src="image.png" alt="Plotoryx Logo" class="w-12 h-12 mx-auto">
+            <div class="p-4 border-b">
+                <div class="flex items-center">
+                    <img src="image.png" alt="Plotoryx Logo" class="w-8 h-8 mr-3">
+                    <h1 class="text-lg font-bold text-indigo-600">Plotoryx</h1>
+                </div>
             </div>
             <!-- Profile Card -->
             <div class="p-4 border-b">

@@ -1,6 +1,6 @@
 <?php
-require_once '../includes/auth.php';
-require_once '../includes/db.php';
+require_once 'includes/auth.php';
+require_once 'includes/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
     $id = $_POST['id'];
@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
 
     try {
         // Get current favorite status
-        $stmt = $pdo->prepare("SELECT favorite FROM entries WHERE id = ? AND user_id = ?");
+        $stmt = $pdo->prepare("SELECT COALESCE(favorite, 0) as favorite FROM entries WHERE id = ? AND user_id = ?");
         $stmt->execute([$id, $userId]);
         $entry = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -24,9 +24,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
             exit();
         }
     } catch (PDOException $e) {
-        // Handle error
+        // Handle error - redirect back with error
         $referer = $_SERVER['HTTP_REFERER'];
-        header("Location: $referer");
+        header("Location: $referer?error=" . urlencode("Database error: " . $e->getMessage()));
         exit();
     }
 }

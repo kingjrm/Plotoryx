@@ -16,113 +16,244 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plotoryx - Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Poppins', sans-serif; }
+        body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-50">
     <div class="flex h-screen">
         <!-- Sidebar -->
-        <div class="w-64 bg-white shadow-lg fixed h-full">
+        <div class="w-64 bg-white shadow-sm border-r border-gray-200">
             <!-- Logo Section -->
-            <div class="p-4 border-b">
+            <div class="p-6 border-b border-gray-200">
                 <div class="flex items-center">
                     <img src="image.png" alt="Plotoryx Logo" class="w-8 h-8 mr-3">
-                    <h1 class="text-lg font-bold text-indigo-600">Plotoryx</h1>
+                    <h1 class="text-xl font-bold text-gray-900">Plotoryx</h1>
                 </div>
             </div>
+
             <!-- Profile Card -->
-            <div class="p-4 border-b">
+            <div class="p-4 mx-2 mt-4 bg-gray-50 rounded-lg">
                 <div class="flex items-center">
-                    <img src="<?php echo $user['profile_picture'] ? $user['profile_picture'] : 'https://via.placeholder.com/40'; ?>" alt="Profile" class="w-10 h-10 rounded-full mr-3">
+                    <img src="<?php echo $user['profile_picture'] ? $user['profile_picture'] : 'https://via.placeholder.com/40'; ?>" alt="Profile" class="w-10 h-10 rounded-full mr-3 border-2 border-white shadow-sm">
                     <div class="min-w-0 flex-1">
-                        <p class="text-sm font-medium truncate"><?php echo htmlspecialchars($user['name']); ?></p>
+                        <p class="text-sm font-medium text-gray-900 truncate"><?php echo htmlspecialchars($user['name']); ?></p>
                         <p class="text-xs text-gray-500 truncate"><?php echo htmlspecialchars($user['email']); ?></p>
                     </div>
                 </div>
             </div>
-            <nav class="mt-4">
-                <a href="?page=dashboard" class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 <?php echo $page == 'dashboard' ? 'bg-gray-200' : ''; ?>">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v2H8V5z"></path></svg>
-                    Dashboard
-                </a>
-                <a href="?page=manhwa" class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 <?php echo $page == 'manhwa' ? 'bg-gray-200' : ''; ?>">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                    My Manhwas
-                </a>
-                <a href="?page=movies" class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 <?php echo $page == 'movies' ? 'bg-gray-200' : ''; ?>">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                    My Movies
-                </a>
-                <a href="?page=favorites" class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 <?php echo $page == 'favorites' ? 'bg-gray-200' : ''; ?>">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
-                    Favorites
-                </a>
-                <a href="?page=completed" class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 <?php echo $page == 'completed' ? 'bg-gray-200' : ''; ?>">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    Completed
-                </a>
-                <a href="?page=settings" class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 <?php echo $page == 'settings' ? 'bg-gray-200' : ''; ?>">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                    Settings
-                </a>
-                <a href="logout.php" class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
-                    Logout
-                </a>
+
+            <!-- Navigation -->
+            <nav class="mt-6 px-2">
+                <div class="space-y-1">
+                    <a href="?page=dashboard" class="group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg <?php echo $page == 'dashboard' ? 'bg-gray-900 text-white' : 'text-gray-700 hover:bg-gray-100'; ?>">
+                        <svg class="w-5 h-5 mr-3 <?php echo $page == 'dashboard' ? 'text-white' : 'text-gray-400'; ?>" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v2H8V5z"/>
+                        </svg>
+                        Overview
+                    </a>
+
+                    <a href="?page=manhwa" class="group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg <?php echo $page == 'manhwa' ? 'bg-gray-900 text-white' : 'text-gray-700 hover:bg-gray-100'; ?>">
+                        <svg class="w-5 h-5 mr-3 <?php echo $page == 'manhwa' ? 'text-white' : 'text-gray-400'; ?>" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                        </svg>
+                        Manhwa
+                    </a>
+
+                    <a href="?page=movies" class="group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg <?php echo $page == 'movies' ? 'bg-gray-900 text-white' : 'text-gray-700 hover:bg-gray-100'; ?>">
+                        <svg class="w-5 h-5 mr-3 <?php echo $page == 'movies' ? 'text-white' : 'text-gray-400'; ?>" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                        </svg>
+                        Movies
+                    </a>
+
+                    <div class="pt-4 pb-2">
+                        <p class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Quick Access</p>
+                    </div>
+
+                    <a href="?page=favorites" class="group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg <?php echo $page == 'favorites' ? 'bg-yellow-100 text-yellow-800 border border-yellow-200' : 'text-gray-700 hover:bg-gray-100'; ?>">
+                        <svg class="w-5 h-5 mr-3 <?php echo $page == 'favorites' ? 'text-yellow-600' : 'text-gray-400'; ?>" fill="<?php echo $page == 'favorites' ? 'currentColor' : 'none'; ?>" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+                        </svg>
+                        Favorites
+                    </a>
+
+                    <a href="?page=completed" class="group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg <?php echo $page == 'completed' ? 'bg-green-100 text-green-800 border border-green-200' : 'text-gray-700 hover:bg-gray-100'; ?>">
+                        <svg class="w-5 h-5 mr-3 <?php echo $page == 'completed' ? 'text-green-600' : 'text-gray-400'; ?>" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        Completed
+                    </a>
+                </div>
+
+                <!-- Logout -->
+                <div class="mt-8 pt-4 border-t border-gray-200">
+                    <a href="logout.php" class="group flex items-center px-3 py-2.5 text-sm font-medium text-gray-700 rounded-lg hover:bg-red-50 hover:text-red-700">
+                        <svg class="w-5 h-5 mr-3 text-gray-400 group-hover:text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                        </svg>
+                        Logout
+                    </a>
+                </div>
             </nav>
         </div>
 
         <!-- Main content -->
-        <div class="flex-1 ml-64">
-            <!-- Top Navbar -->
-            <header class="bg-white shadow-sm border-b">
-                <div class="flex items-center justify-between px-6 py-4">
-                    <h1 class="text-lg font-semibold text-gray-900"><?php echo ucfirst($page); ?></h1>
-                    <div class="flex items-center space-x-4">
-                        <input type="text" placeholder="Search..." class="px-3 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                        <div class="relative">
-                            <button class="flex items-center text-sm text-gray-700 hover:text-gray-900">
-                                <img src="<?php echo $user['profile_picture'] ? $user['profile_picture'] : 'https://via.placeholder.com/32'; ?>" alt="Profile" class="w-8 h-8 rounded-full mr-2">
-                                <?php echo htmlspecialchars($user['name']); ?>
-                            </button>
+        <div class="flex-1 overflow-hidden flex flex-col">
+            <!-- Top Navigation Bar -->
+            <header class="bg-white shadow-sm border-b border-gray-200">
+                <div class="px-6 py-4">
+                    <div class="flex items-center justify-between">
+                        <!-- Breadcrumbs -->
+                        <nav class="flex items-center space-x-2 text-sm text-gray-500">
+                            <a href="?page=dashboard" class="hover:text-gray-700 transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v2H8V5z"/>
+                                </svg>
+                            </a>
+                            <span>/</span>
+                            <?php
+                            $breadcrumbs = [];
+                            switch ($page) {
+                                case 'dashboard':
+                                    $breadcrumbs = ['Dashboard'];
+                                    break;
+                                case 'manhwa':
+                                    $breadcrumbs = ['Dashboard', 'Manhwa'];
+                                    break;
+                                case 'movies':
+                                    $breadcrumbs = ['Dashboard', 'Movies'];
+                                    break;
+                                case 'favorites':
+                                    $breadcrumbs = ['Dashboard', 'Favorites'];
+                                    break;
+                                case 'completed':
+                                    $breadcrumbs = ['Dashboard', 'Completed'];
+                                    break;
+                                case 'settings':
+                                    $breadcrumbs = ['Dashboard', 'Settings'];
+                                    break;
+                                default:
+                                    $breadcrumbs = ['Dashboard'];
+                                    break;
+                            }
+
+                            foreach ($breadcrumbs as $index => $crumb) {
+                                $isLast = $index === count($breadcrumbs) - 1;
+                                if ($isLast) {
+                                    echo '<span class="text-gray-900 font-medium">' . htmlspecialchars($crumb) . '</span>';
+                                } else {
+                                    echo '<a href="?page=dashboard" class="hover:text-gray-700 transition-colors">' . htmlspecialchars($crumb) . '</a>';
+                                    echo '<span>/</span>';
+                                }
+                            }
+                            ?>
+                        </nav>
+
+                        <!-- Top Navigation Actions -->
+                        <div class="flex items-center space-x-4">
+                            <!-- Search Bar -->
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                    </svg>
+                                </div>
+                                <input type="text" placeholder="Search entries..." class="block w-64 pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm">
+                            </div>
+
+                            <!-- Quick Actions -->
+                            <div class="flex items-center space-x-2">
+                                <button onclick="openAddModal('manhwa')" class="inline-flex items-center px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                                    </svg>
+                                    Add Manhwa
+                                </button>
+                                <button onclick="openAddModal('movie')" class="inline-flex items-center px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                                    </svg>
+                                    Add Movie
+                                </button>
+                            </div>
+
+                            <!-- User Menu -->
+                            <div class="relative">
+                                <button id="userMenuButton" class="flex items-center space-x-2 text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                    <img class="h-8 w-8 rounded-full border-2 border-white shadow-sm" src="<?php echo $user['profile_picture'] ? $user['profile_picture'] : 'https://via.placeholder.com/32'; ?>" alt="Profile">
+                                    <span class="hidden md:block text-gray-700"><?php echo htmlspecialchars($user['name']); ?></span>
+                                    <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                    </svg>
+                                </button>
+
+                                <!-- User Dropdown Menu -->
+                                <div id="userMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 border border-gray-200">
+                                    <a href="?page=settings" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                        </svg>
+                                        Settings
+                                    </a>
+                                    <div class="border-t border-gray-100"></div>
+                                    <a href="logout.php" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                                        <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                                        </svg>
+                                        Logout
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </header>
 
             <!-- Page Content -->
-            <main class="p-6">
-                <?php if (isset($_GET['error'])): ?>
-                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                        <?php echo htmlspecialchars($_GET['error']); ?>
-                    </div>
-                <?php endif; ?>
-                <?php
-                switch ($page) {
-                    case 'dashboard':
-                        include 'pages/dashboard.php';
-                        break;
-                    case 'manhwa':
-                        include 'pages/manhwa.php';
-                        break;
-                    case 'movies':
-                        include 'pages/movies.php';
-                        break;
-                    case 'favorites':
-                        include 'pages/favorites.php';
-                        break;
-                    case 'completed':
-                        include 'pages/completed.php';
-                        break;
-                    case 'settings':
-                        include 'pages/settings.php';
-                        break;
-                    default:
-                        include 'pages/dashboard.php';
-                }
-                ?>
+            <main class="flex-1 overflow-y-auto bg-gray-50">
+                <div class="p-8">
+                    <?php if (isset($_GET['error'])): ?>
+                        <div class="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 mr-2 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <?php echo htmlspecialchars($_GET['error']); ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php
+                    switch ($page) {
+                        case 'dashboard':
+                            include 'pages/dashboard.php';
+                            break;
+                        case 'manhwa':
+                            include 'pages/manhwa.php';
+                            break;
+                        case 'movies':
+                            include 'pages/movies.php';
+                            break;
+                        case 'favorites':
+                            include 'pages/favorites.php';
+                            break;
+                        case 'completed':
+                            include 'pages/completed.php';
+                            break;
+                        case 'settings':
+                            include 'pages/settings.php';
+                            break;
+                        default:
+                            include 'pages/dashboard.php';
+                            break;
+                    }
+                    ?>
+                </div>
             </main>
         </div>
     </div>
@@ -482,6 +613,22 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
         document.getElementById('addForm').addEventListener('submit', function(e) {
             // Let the form submit normally, but we might want to handle success/error
             // For now, just let it submit to add_entry.php
+        });
+
+        // User menu dropdown toggle
+        document.getElementById('userMenuButton').addEventListener('click', function() {
+            const menu = document.getElementById('userMenu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Close user menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const userMenu = document.getElementById('userMenu');
+            const userMenuButton = document.getElementById('userMenuButton');
+
+            if (!userMenuButton.contains(event.target) && !userMenu.contains(event.target)) {
+                userMenu.classList.add('hidden');
+            }
         });
     </script>
 </body>

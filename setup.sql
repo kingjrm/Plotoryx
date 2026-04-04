@@ -28,3 +28,15 @@ CREATE TABLE entries (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+-- Insert sample data for testing
+INSERT INTO users (name, email, password) VALUES
+('Test User', 'test@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'); -- password: password
+
+INSERT INTO entries (user_id, type, title, status, rating, remarks, favorite) VALUES
+(1, 'manhwa', 'Solo Leveling', 'ongoing', 9, 'Amazing story and art!', TRUE),
+(1, 'manhwa', 'Tower of God', 'ongoing', 8, 'Great world-building', FALSE),
+(1, 'manhwa', 'The God of High School', 'completed', 7, 'Action-packed but predictable', TRUE),
+(1, 'movie', 'Inception', 'completed', 10, 'Mind-bending masterpiece', TRUE),
+(1, 'movie', 'The Dark Knight', 'completed', 9, 'Best superhero movie ever', FALSE),
+(1, 'movie', 'Interstellar', 'completed', 8, 'Beautiful and emotional', TRUE);

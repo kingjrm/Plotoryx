@@ -54,10 +54,15 @@ function logout() {
 // Function to get current user
 function getCurrentUser() {
     if (!isLoggedIn()) return null;
-    global $pdo;
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
-    $stmt->execute([$_SESSION['user_id']]);
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Return user data from session for better performance and realtime updates
+    return [
+        'id' => $_SESSION['user_id'],
+        'name' => $_SESSION['user_name'] ?? '',
+        'email' => $_SESSION['user_email'] ?? '',
+        'profile_picture' => $_SESSION['profile_picture'] ?? null,
+        'created_at' => null // We don't store this in session, but it's not used in the UI
+    ];
 }
 
 // Function to upload image

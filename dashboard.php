@@ -128,39 +128,116 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
     </div>
 
     <!-- Modal for editing (will be populated by JS) -->
-    <div id="editModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden" id="my-modal">
-        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-            <div class="mt-3 text-center">
-                <h3 class="text-lg font-medium text-gray-900" id="modalTitle">Edit Entry</h3>
-                <div class="mt-2 px-7 py-3">
+    <div id="editModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
+        <div class="relative top-20 mx-auto p-5 border w-full max-w-2xl shadow-lg rounded-md bg-white max-h-[90vh] overflow-y-auto">
+            <div class="mt-3">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-medium text-gray-900">Edit Entry</h3>
+                    <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="px-2">
                     <form id="editForm" action="edit_entry.php" method="POST" enctype="multipart/form-data">
                         <input type="hidden" id="editId" name="id">
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700">Title</label>
-                            <input type="text" id="editTitle" name="title" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <!-- Left Column - Basic Info -->
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="editTitle" class="block text-sm font-medium text-gray-700 mb-2">Title</label>
+                                    <input type="text" id="editTitle" name="title" required
+                                           class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-1 focus:ring-gray-900 focus:border-gray-900 transition-colors text-sm">
+                                </div>
+
+                                <div>
+                                    <label for="editStatus" class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <label class="relative">
+                                            <input type="radio" name="status" value="ongoing" id="editStatusOngoing" class="sr-only peer">
+                                            <div class="p-2 border border-gray-300 rounded cursor-pointer peer-checked:border-gray-900 peer-checked:bg-gray-50 hover:border-gray-400 transition-colors">
+                                                <div class="flex items-center justify-center">
+                                                    <svg class="w-4 h-4 text-gray-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                    </svg>
+                                                    <span class="text-sm font-medium text-gray-900">Ongoing</span>
+                                                </div>
+                                            </div>
+                                        </label>
+                                        <label class="relative">
+                                            <input type="radio" name="status" value="completed" id="editStatusCompleted" class="sr-only peer">
+                                            <div class="p-2 border border-gray-300 rounded cursor-pointer peer-checked:border-gray-900 peer-checked:bg-gray-50 hover:border-gray-400 transition-colors">
+                                                <div class="flex items-center justify-center">
+                                                    <svg class="w-4 h-4 text-gray-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                                                    </svg>
+                                                    <span class="text-sm font-medium text-gray-900">Completed</span>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label for="editRating" class="block text-sm font-medium text-gray-700 mb-2">Rating (1-10)</label>
+                                    <select id="editRating" name="rating" class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-1 focus:ring-gray-900 focus:border-gray-900 transition-colors text-sm">
+                                        <option value="">No rating</option>
+                                        <option value="1">1 - Poor</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5 - Average</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10 - Excellent</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Right Column - Remarks and Image -->
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="editRemarks" class="block text-sm font-medium text-gray-700 mb-2">Personal Notes</label>
+                                    <textarea id="editRemarks" name="remarks" rows="4"
+                                              class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-1 focus:ring-gray-900 focus:border-gray-900 transition-colors resize-none text-sm"
+                                              placeholder="Add your thoughts, reviews, or notes about this entry..."></textarea>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Cover Image</label>
+                                    <div class="border border-dashed border-gray-300 rounded p-4 text-center hover:border-gray-400 transition-colors">
+                                        <input type="file" id="editImage" name="image" accept="image/*" class="hidden" onchange="previewEditImage(event)">
+                                        <label for="editImage" class="cursor-pointer">
+                                            <svg class="w-8 h-8 text-gray-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                            </svg>
+                                            <p class="text-gray-600 text-sm mb-1">Click to upload new image</p>
+                                            <p class="text-xs text-gray-500">PNG, JPG, GIF up to 5MB</p>
+                                        </label>
+                                    </div>
+                                    <div id="editImagePreview" class="mt-3 hidden">
+                                        <img id="editPreviewImg" src="" alt="Preview" class="w-full h-32 object-cover rounded border">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700">Status</label>
-                            <select id="editStatus" name="status" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md">
-                                <option value="ongoing">Ongoing</option>
-                                <option value="completed">Completed</option>
-                            </select>
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700">Rating (1-10)</label>
-                            <input type="number" id="editRating" name="rating" min="1" max="10" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md">
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700">Remarks</label>
-                            <textarea id="editRemarks" name="remarks" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"></textarea>
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700">Cover Image</label>
-                            <input type="file" id="editImage" name="image" accept="image/*" class="mt-1 block w-full">
-                        </div>
-                        <div class="flex items-center px-4 py-3">
-                            <button type="submit" class="px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300">Save</button>
-                            <button type="button" onclick="closeModal()" class="ml-3 px-4 py-2 bg-gray-300 text-gray-900 text-base font-medium rounded-md w-full shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300">Cancel</button>
+
+                        <!-- Submit Button -->
+                        <div class="mt-6 pt-4 border-t border-gray-200">
+                            <div class="flex justify-end space-x-3">
+                                <button type="button" onclick="closeModal()" class="px-4 py-2 border border-gray-300 rounded text-gray-700 hover:bg-gray-50 transition-colors text-sm">
+                                    Cancel
+                                </button>
+                                <button type="submit" class="px-6 py-2 bg-gray-900 text-white rounded hover:bg-gray-800 focus:ring-1 focus:ring-gray-900 focus:ring-offset-1 transition-colors flex items-center text-sm">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    Save Changes
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -315,12 +392,32 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
     </div>
 
     <script>
-        function openModal(id, title, status, rating, remarks) {
+        function openModal(button) {
+            const id = button.getAttribute('data-id');
+            const title = button.getAttribute('data-title');
+            const status = button.getAttribute('data-status');
+            const rating = button.getAttribute('data-rating');
+            const remarks = button.getAttribute('data-remarks');
+
             document.getElementById('editId').value = id;
             document.getElementById('editTitle').value = title;
-            document.getElementById('editStatus').value = status;
-            document.getElementById('editRating').value = rating;
-            document.getElementById('editRemarks').value = remarks;
+
+            // Handle status radio buttons
+            document.getElementById('editStatusOngoing').checked = false;
+            document.getElementById('editStatusCompleted').checked = false;
+            if (status === 'ongoing') {
+                document.getElementById('editStatusOngoing').checked = true;
+            } else if (status === 'completed') {
+                document.getElementById('editStatusCompleted').checked = true;
+            }
+
+            document.getElementById('editRating').value = rating || '';
+            document.getElementById('editRemarks').value = remarks || '';
+
+            // Reset image preview
+            document.getElementById('editImagePreview').classList.add('hidden');
+            document.getElementById('editImage').value = '';
+
             document.getElementById('editModal').classList.remove('hidden');
         }
 
@@ -332,14 +429,14 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
             // Reset form
             document.getElementById('addForm').reset();
             document.getElementById('addImagePreview').classList.add('hidden');
-            
+
             // Pre-select the type
             if (type === 'manhwa') {
                 document.getElementById('addTypeManhwa').checked = true;
             } else if (type === 'movie') {
                 document.getElementById('addTypeMovie').checked = true;
             }
-            
+
             document.getElementById('addModal').classList.remove('hidden');
         }
 
@@ -351,6 +448,23 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
             const file = event.target.files[0];
             const preview = document.getElementById('addImagePreview');
             const previewImg = document.getElementById('addPreviewImg');
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    preview.classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.classList.add('hidden');
+            }
+        }
+
+        function previewEditImage(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('editImagePreview');
+            const previewImg = document.getElementById('editPreviewImg');
 
             if (file) {
                 const reader = new FileReader();

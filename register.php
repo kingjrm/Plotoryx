@@ -2,20 +2,37 @@
 require_once 'includes/auth.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
+    $name = trim($_POST['name']);
+    $email = trim($_POST['email']);
     $password = $_POST['password'];
     $profilePicture = '';
 
-    if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
-        $profilePicture = uploadImage($_FILES['profile_picture']);
-    }
-
-    if (registerUser($name, $email, $password, $profilePicture)) {
-        header("Location: index.php?registered=1");
-        exit();
+    // Validation
+    if (empty($name) || empty($email) || empty($password)) {
+        $error = "All fields are required";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = "Invalid email format";
+    } elseif (strlen($password) < 6) {
+        $error = "Password must be at least 6 characters";
     } else {
-        $error = "Registration failed. Email might already be in use.";
+        if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
+            $uploadResult = uploadImage($_FILES['profile_picture']);
+            if (isset($uploadResult['error'])) {
+                $error = $uploadResult['error'];
+            } else {
+                $profilePicture = $uploadResult['success'];
+            }
+        }
+
+        if (!isset($error)) {
+            $result = registerUser($name, $email, $password, $profilePicture);
+            if (isset($result['success'])) {
+                header("Location: index.php?registered=1");
+                exit();
+            } else {
+                $error = $result['error'];
+            }
+        }
     }
 }
 ?>

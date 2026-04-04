@@ -6,12 +6,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
     $id = $_POST['id'];
     $userId = $_SESSION['user_id'];
 
-    $stmt = $pdo->prepare("UPDATE entries SET status = 'completed' WHERE id = ? AND user_id = ?");
-    $stmt->execute([$id, $userId]);
-
-    // Redirect back
-    $referer = $_SERVER['HTTP_REFERER'];
-    header("Location: $referer");
-    exit();
+    try {
+        $stmt = $pdo->prepare("UPDATE entries SET status = 'completed' WHERE id = ? AND user_id = ?");
+        $stmt->execute([$id, $userId]);
+        // Redirect back
+        $referer = $_SERVER['HTTP_REFERER'];
+        header("Location: $referer");
+        exit();
+    } catch (PDOException $e) {
+        $error = "Failed to update entry: " . $e->getMessage();
+        $referer = $_SERVER['HTTP_REFERER'];
+        header("Location: $referer?error=" . urlencode($error));
+        exit();
+    }
 }
 ?>

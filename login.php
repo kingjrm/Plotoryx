@@ -2,14 +2,19 @@
 require_once 'includes/auth.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = $_POST['email'];
+    $email = trim($_POST['email']);
     $password = $_POST['password'];
 
-    if (loginUser($email, $password)) {
-        header("Location: dashboard.php");
-        exit();
+    if (empty($email) || empty($password)) {
+        $error = "Email and password are required";
     } else {
-        $error = "Invalid email or password";
+        $result = loginUser($email, $password);
+        if (isset($result['success'])) {
+            header("Location: dashboard.php");
+            exit();
+        } else {
+            $error = $result['error'];
+        }
     }
 }
 ?>

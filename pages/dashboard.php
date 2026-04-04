@@ -2,30 +2,36 @@
 global $pdo;
 $userId = $_SESSION['user_id'];
 
-// Get stats
-$stmt = $pdo->prepare("SELECT type, COUNT(*) as count FROM entries WHERE user_id = ? GROUP BY type");
-$stmt->execute([$userId]);
-$stats = $stmt->fetchAll(PDO::FETCH_ASSOC);
+try {
+    // Get stats
+    $stmt = $pdo->prepare("SELECT type, COUNT(*) as count FROM entries WHERE user_id = ? GROUP BY type");
+    $stmt->execute([$userId]);
+    $stats = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$totalManhwa = 0;
-$totalMovies = 0;
-foreach ($stats as $stat) {
-    if ($stat['type'] == 'manhwa') $totalManhwa = $stat['count'];
-    if ($stat['type'] == 'movie') $totalMovies = $stat['count'];
+    $totalManhwa = 0;
+    $totalMovies = 0;
+    foreach ($stats as $stat) {
+        if ($stat['type'] == 'manhwa') $totalManhwa = $stat['count'];
+        if ($stat['type'] == 'movie') $totalMovies = $stat['count'];
+    }
+
+    $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM entries WHERE user_id = ? AND status = 'ongoing'");
+    $stmt->execute([$userId]);
+    $ongoing = $stmt->fetch()['count'];
+
+    $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM entries WHERE user_id = ? AND status = 'completed'");
+    $stmt->execute([$userId]);
+    $completed = $stmt->fetch()['count'];
+
+    // Recent entries
+    $stmt = $pdo->prepare("SELECT * FROM entries WHERE user_id = ? ORDER BY created_at DESC LIMIT 6");
+    $stmt->execute([$userId]);
+    $recentEntries = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    $error = "Failed to load dashboard data: " . $e->getMessage();
+    $totalManhwa = $totalMovies = $ongoing = $completed = 0;
+    $recentEntries = [];
 }
-
-$stmt = $pdo->prepare("SELECT COUNT(*) as count FROM entries WHERE user_id = ? AND status = 'ongoing'");
-$stmt->execute([$userId]);
-$ongoing = $stmt->fetch()['count'];
-
-$stmt = $pdo->prepare("SELECT COUNT(*) as count FROM entries WHERE user_id = ? AND status = 'completed'");
-$stmt->execute([$userId]);
-$completed = $stmt->fetch()['count'];
-
-// Recent entries
-$stmt = $pdo->prepare("SELECT * FROM entries WHERE user_id = ? ORDER BY created_at DESC LIMIT 6");
-$stmt->execute([$userId]);
-$recentEntries = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
@@ -46,6 +52,12 @@ $recentEntries = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <p class="text-2xl font-semibold"><?php echo $completed; ?></p>
     </div>
 </div>
+
+<?php if (isset($error)): ?>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        <?php echo htmlspecialchars($error); ?>
+    </div>
+<?php endif; ?>
 
 <h2 class="text-lg font-semibold mb-4">Recently Added</h2>
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

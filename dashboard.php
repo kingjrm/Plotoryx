@@ -98,6 +98,11 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
 
             <!-- Page Content -->
             <main class="p-6">
+                <?php if (isset($_GET['error'])): ?>
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                        <?php echo htmlspecialchars($_GET['error']); ?>
+                    </div>
+                <?php endif; ?>
                 <?php
                 switch ($page) {
                     case 'dashboard':

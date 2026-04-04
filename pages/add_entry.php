@@ -1,25 +1,44 @@
 <?php
-require_once '../includes/auth.php';
-require_once '../includes/db.php';
+require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $type = $_POST['type'];
-    $title = $_POST['title'];
+    $title = trim($_POST['title']);
     $status = $_POST['status'];
     $rating = $_POST['rating'] ?: null;
-    $remarks = $_POST['remarks'];
+    $remarks = trim($_POST['remarks']);
     $image = '';
 
-    if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-        $image = uploadImage($_FILES['image']);
-    }
-
-    $stmt = $pdo->prepare("INSERT INTO entries (user_id, type, title, image, status, rating, remarks) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    if ($stmt->execute([$_SESSION['user_id'], $type, $title, $image, $status, $rating, $remarks])) {
-        header("Location: ../dashboard.php?page=" . ($type == 'manhwa' ? 'manhwa' : 'movies'));
-        exit();
+    // Validation
+    if (empty($title)) {
+        $error = "Title is required";
+    } elseif (!in_array($type, ['manhwa', 'movie'])) {
+        $error = "Invalid type";
+    } elseif (!in_array($status, ['ongoing', 'completed'])) {
+        $error = "Invalid status";
+    } elseif ($rating && (!is_numeric($rating) || $rating < 1 || $rating > 10)) {
+        $error = "Rating must be between 1 and 10";
     } else {
-        $error = "Failed to add entry.";
+        if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+            $uploadResult = uploadImage($_FILES['image']);
+            if (isset($uploadResult['error'])) {
+                $error = $uploadResult['error'];
+            } else {
+                $image = $uploadResult['success'];
+            }
+        }
+
+        if (!isset($error)) {
+            try {
+                $stmt = $pdo->prepare("INSERT INTO entries (user_id, type, title, image, status, rating, remarks) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                $stmt->execute([$_SESSION['user_id'], $type, $title, $image, $status, $rating, $remarks]);
+                header("Location: ../dashboard.php?page=" . ($type == 'manhwa' ? 'manhwa' : 'movies'));
+                exit();
+            } catch (PDOException $e) {
+                $error = "Failed to add entry: " . $e->getMessage();
+            }
+        }
     }
 }
 ?>
@@ -27,7 +46,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow">
     <h2 class="text-lg font-semibold mb-4">Add New Entry</h2>
     <?php if (isset($error)): ?>
-        <p class="text-red-500 mb-4"><?php echo $error; ?></p>
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            <?php echo htmlspecialchars($error); ?>
+        </div>
     <?php endif; ?>
     <form action="add_entry.php" method="POST" enctype="multipart/form-data">
         <div class="mb-4">

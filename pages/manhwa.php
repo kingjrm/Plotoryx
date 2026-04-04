@@ -23,9 +23,14 @@ if ($search) {
 
 $query .= " ORDER BY created_at DESC";
 
-$stmt = $pdo->prepare($query);
-$stmt->execute($params);
-$entries = $stmt->fetchAll(PDO::FETCH_ASSOC);
+try {
+    $stmt = $pdo->prepare($query);
+    $stmt->execute($params);
+    $entries = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    $error = "Failed to load entries: " . $e->getMessage();
+    $entries = [];
+}
 ?>
 
 <div class="flex justify-between items-center mb-6">
@@ -36,6 +41,12 @@ $entries = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <a href="?page=manhwa&filter=completed" class="px-3 py-1 text-sm bg-gray-200 rounded <?php echo $filter == 'completed' ? 'bg-indigo-600 text-white' : ''; ?>">Completed</a>
     </div>
 </div>
+
+<?php if (isset($error)): ?>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        <?php echo htmlspecialchars($error); ?>
+    </div>
+<?php endif; ?>
 
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
     <?php foreach ($entries as $entry): ?>

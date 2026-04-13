@@ -43,25 +43,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Handle profile picture upload
                 $profilePicture = $user['profile_picture'];
                 if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
-                    $uploadDir = 'uploads/profile_pictures/';
-                    if (!is_dir($uploadDir)) {
-                        mkdir($uploadDir, 0755, true);
-                    }
-
-                    $fileName = uniqid() . '_' . basename($_FILES['profile_picture']['name']);
-                    $uploadFile = $uploadDir . $fileName;
-
-                    $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-                    if (in_array($_FILES['profile_picture']['type'], $allowedTypes)) {
-                        if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $uploadFile)) {
-                            $profilePicture = $uploadFile;
-                        } else {
-                            $message = 'Failed to upload profile picture.';
-                            $messageType = 'error';
-                        }
-                    } else {
-                        $message = 'Invalid file type. Please upload a JPEG, PNG, GIF, or WebP image.';
+                    $uploadResult = uploadImage($_FILES['profile_picture'], null, 'profile_pictures');
+                    if (isset($uploadResult['error'])) {
+                        $message = $uploadResult['error'];
                         $messageType = 'error';
+                    } else {
+                        $profilePicture = $uploadResult['success'];
                     }
                 }
 

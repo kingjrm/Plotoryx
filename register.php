@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $error = "Password must be at least 6 characters";
     } else {
         if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
-            $uploadResult = uploadImage($_FILES['profile_picture']);
+            $uploadResult = uploadImage($_FILES['profile_picture'], null, 'profile_pictures');
             if (isset($uploadResult['error'])) {
                 $error = $uploadResult['error'];
             } else {
@@ -43,6 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plotoryx - Register</title>
+    <link rel="icon" type="image/png" href="image.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -53,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
         <h1 class="text-2xl font-semibold text-center mb-6">Register for Plotoryx</h1>
         <?php if (isset($error)): ?>
-            <p class="text-red-500 text-center mb-4"><?php echo $error; ?></p>
+            <p class="text-red-500 text-center mb-4"><?php echo htmlspecialchars($error); ?></p>
         <?php endif; ?>
         <form action="register.php" method="POST" enctype="multipart/form-data">
             <div class="mb-4">

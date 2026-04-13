@@ -66,9 +66,15 @@ function getCurrentUser() {
 }
 
 // Function to upload image
-function uploadImage($file, $targetDir = null) {
+function uploadImage($file, $targetDir = null, $subdir = '') {
     if ($targetDir === null) {
         $targetDir = __DIR__ . '/../uploads/';
+    }
+    if (!empty($subdir)) {
+        $targetDir .= $subdir . '/';
+        if (!is_dir($targetDir)) {
+            mkdir($targetDir, 0755, true);
+        }
     }
     if (!isset($file) || $file['error'] != 0) {
         return ['error' => 'No file uploaded or upload error'];
@@ -88,7 +94,7 @@ function uploadImage($file, $targetDir = null) {
 
     if (move_uploaded_file($file['tmp_name'], $targetFile)) {
         // Return path relative to web root
-        return ['success' => 'uploads/' . $fileName];
+        return ['success' => 'uploads/' . (!empty($subdir) ? $subdir . '/' : '') . $fileName];
     }
     return ['error' => 'Failed to move uploaded file'];
 }

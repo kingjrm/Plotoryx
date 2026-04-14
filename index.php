@@ -119,7 +119,7 @@
     <!-- Main Content -->
     <div id="main-content">
         <!-- Navigation -->
-        <nav class="bg-white shadow-sm border-b border-gray-100">
+        <nav class="sticky top-0 bg-white shadow-sm border-b border-gray-100 z-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center py-4">
                     <div class="flex items-center">
@@ -263,15 +263,66 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12">
+    <footer class="bg-gray-900 text-white py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="flex items-center mb-4 md:mb-0">
-                    <img src="image.png" alt="Plotoryx Logo" class="h-8 w-8 mr-3">
-                    <span class="text-xl font-bold">Plotoryx</span>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Company Info -->
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <img src="image.png" alt="Plotoryx Logo" class="h-10 w-10 mr-3">
+                        <span class="text-2xl font-bold">Plotoryx</span>
+                    </div>
+                    <p class="text-gray-300 mb-4 max-w-md">
+                        Never lose track of your favorite manhwa and movies. Organize your entertainment library with ease.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-discord text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                    </div>
                 </div>
-                <div class="text-gray-400 text-sm">
-                    © 2026 Plotoryx. All rights reserved.
+
+                <!-- Product -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Product</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#features" class="text-gray-400 hover:text-white transition-colors">Features</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">How it Works</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Pricing</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">API</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Support</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Help Center</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="border-t border-gray-800 mt-12 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <div class="text-gray-400 text-sm mb-4 md:mb-0">
+                        © 2026 Plotoryx. All rights reserved.
+                    </div>
+                    <div class="flex space-x-6 text-sm">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">Terms</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">Cookies</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">Sitemap</a>
+                    </div>
                 </div>
             </div>
         </div>

@@ -11,6 +11,7 @@ CREATE TABLE users (
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     profile_picture VARCHAR(255),
+    email_verified BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -30,8 +31,8 @@ CREATE TABLE entries (
 );
 
 -- Insert sample data for testing
-INSERT INTO users (name, email, password) VALUES
-('Test User', 'test@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'); -- password: password
+INSERT INTO users (name, email, password, email_verified) VALUES
+('Test User', 'test@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', TRUE); -- password: password
 
 INSERT INTO entries (user_id, type, title, status, rating, remarks, favorite) VALUES
 (1, 'manhwa', 'Solo Leveling', 'ongoing', 9, 'Amazing story and art!', TRUE),

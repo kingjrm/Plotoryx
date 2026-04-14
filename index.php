@@ -3,56 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plotoryx - Login</title>
+    <title>Plotoryx - Track Your Favorite Manhwa & Movies</title>
+    <meta name="description" content="Never lose track of your favorite manhwa and movies. Organize your entertainment library with Plotoryx.">
     <link rel="icon" type="image/png" href="image.png">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { font-family: 'Poppins', sans-serif; }
+        body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
-    <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-gray-100">
-        <!-- Logo Section -->
-        <div class="text-center mb-8">
-            <img src="image.png" alt="Plotoryx Logo" class="w-16 h-16 mx-auto mb-4">
-            <h1 class="text-3xl font-bold text-gray-900">Plotoryx</h1>
-            <p class="text-gray-600 mt-2 text-lg">Track your favorite manhwa and movies</p>
-        </div>
-        
-        <!-- Login Form -->
-        <div class="mb-6">
-            <h2 class="text-xl font-semibold text-gray-800 mb-4 text-center">Sign In</h2>
-            <form action="login.php" method="POST" enctype="multipart/form-data" class="space-y-4">
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                    <input type="email" id="email" name="email" required 
-                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
-                           placeholder="Enter your email">
+<body class="bg-white">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <img src="image.png" alt="Plotoryx Logo" class="h-8 w-8 mr-3">
+                    <span class="text-xl font-bold text-gray-900">Plotoryx</span>
                 </div>
-                <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
-                    <input type="password" id="password" name="password" required 
-                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
-                           placeholder="Enter your password">
+                <div class="flex items-center space-x-4">
+                    <a href="#features" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors">Features</a>
+                    <a href="login.php" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors">Sign In</a>
+                    <a href="register.php" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors">Get Started</a>
                 </div>
-                <button type="submit" 
-                        class="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 font-medium">
-                    Sign In
-                </button>
-            </form>
+            </div>
         </div>
-        
-        <div class="text-center">
-            <p class="text-sm text-gray-600">
-                Don't have an account? 
-                <a href="register.php" class="text-indigo-600 hover:text-indigo-500 font-medium">
-                    Create one here
-                </a>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+                    Track Your
+                    <span class="text-indigo-600">Favorite</span>
+                    <br>Manhwa & Movies
+                </h1>
+                <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+                    Never lose track of what you've read or watched. Organize your entertainment library,
+                    discover new favorites, and keep your watching/reading list perfectly organized.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="register.php" class="bg-indigo-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-indigo-700 transition-all duration-200 transform hover:scale-105 shadow-lg">
+                        Start Tracking Free
+                    </a>
+                    <a href="#features" class="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-lg text-lg font-semibold hover:border-gray-400 hover:bg-gray-50 transition-all duration-200">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    Everything You Need to Stay Organized
+                </h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Powerful features designed to help you manage your entertainment library effortlessly.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-gray-50 p-8 rounded-xl hover:shadow-lg transition-shadow duration-300">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-book-open text-indigo-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Manhwa Library</h3>
+                    <p class="text-gray-600">
+                        Keep track of all your favorite manhwa with detailed information, ratings, and reading progress.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="bg-gray-50 p-8 rounded-xl hover:shadow-lg transition-shadow duration-300">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-film text-purple-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Movie Collection</h3>
+                    <p class="text-gray-600">
+                        Organize your movie watchlist with genres, ratings, and personal reviews for every film.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bg-gray-50 p-8 rounded-xl hover:shadow-lg transition-shadow duration-300">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-star text-green-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Personal Ratings</h3>
+                    <p class="text-gray-600">
+                        Rate and review everything you watch or read. Build your personal entertainment database.
+                    </p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="bg-gray-50 p-8 rounded-xl hover:shadow-lg transition-shadow duration-300">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-heart text-blue-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Favorites List</h3>
+                    <p class="text-gray-600">
+                        Mark your absolute favorites and create curated lists for easy access and rediscovery.
+                    </p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="bg-gray-50 p-8 rounded-xl hover:shadow-lg transition-shadow duration-300">
+                    <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-search text-orange-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Smart Search</h3>
+                    <p class="text-gray-600">
+                        Quickly find any manhwa or movie in your collection with powerful search and filter options.
+                    </p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="bg-gray-50 p-8 rounded-xl hover:shadow-lg transition-shadow duration-300">
+                    <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-chart-line text-red-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Progress Tracking</h3>
+                    <p class="text-gray-600">
+                        Monitor your reading/watching progress and never lose your place in any story.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="bg-indigo-600 py-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+                Ready to Organize Your Entertainment?
+            </h2>
+            <p class="text-xl text-indigo-100 mb-8">
+                Join thousands of users who never miss an episode or chapter again.
             </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="register.php" class="bg-white text-indigo-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-50 transition-all duration-200 transform hover:scale-105 shadow-lg">
+                    Create Free Account
+                </a>
+                <a href="login.php" class="border-2 border-white text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-white hover:text-indigo-600 transition-all duration-200">
+                    Sign In
+                </a>
+            </div>
         </div>
-    </div>
-</body>
-</html>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <img src="image.png" alt="Plotoryx Logo" class="h-8 w-8 mr-3">
+                    <span class="text-xl font-bold">Plotoryx</span>
+                </div>
+                <div class="text-gray-400 text-sm">
+                    © 2026 Plotoryx. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

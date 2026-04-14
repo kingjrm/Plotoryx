@@ -104,6 +104,123 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* Floating Elements */
+        .floating-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            top: 20%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .shape:nth-child(3) {
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        .shape:nth-child(4) {
+            bottom: 10%;
+            right: 10%;
+            animation-delay: 1s;
+        }
+
+        .shape:nth-child(5) {
+            top: 50%;
+            left: 5%;
+            animation-delay: 3s;
+        }
+
+        .shape:nth-child(6) {
+            top: 30%;
+            right: 5%;
+            animation-delay: 5s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+        }
+
+        /* Feature Cards Hover Effects */
+        .feature-card {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .feature-card:hover::before {
+            left: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        /* Hero Visual Elements */
+        .hero-visual {
+            position: relative;
+        }
+
+        .hero-illustration {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.8;
+            z-index: 2;
+        }
+
+        .hero-illustration.left {
+            left: -100px;
+        }
+
+        .hero-illustration.right {
+            right: -100px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-illustration {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body class="bg-white">
@@ -136,9 +253,43 @@
         </nav>
 
     <!-- Hero Section -->
-    <section class="bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center">
+    <section class="bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-20 relative overflow-hidden">
+        <!-- Floating Shapes Background -->
+        <div class="floating-shapes">
+            <div class="shape text-indigo-300">
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+            </div>
+            <div class="shape text-purple-300">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+                    <circle cx="12" cy="12" r="10"/>
+                </svg>
+            </div>
+            <div class="shape text-pink-300">
+                <svg width="50" height="50" viewBox="0 0 24 24" fill="currentColor">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                </svg>
+            </div>
+            <div class="shape text-blue-300">
+                <svg width="45" height="45" viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="12,2 22,8.5 22,15.5 12,22 2,15.5 2,8.5"/>
+                </svg>
+            </div>
+            <div class="shape text-indigo-400">
+                <svg width="35" height="35" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2L13.09 8.26L22 9L16 14.74L17.18 21.02L12 17.77L6.82 21.02L8 14.74L2 9L10.91 8.26L12 2Z"/>
+                </svg>
+            </div>
+            <div class="shape text-purple-400">
+                <svg width="55" height="55" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center hero-visual">
                 <h1 class="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
                     Track Your
                     <span class="text-indigo-600">Favorite</span>
@@ -161,8 +312,24 @@
     </section>
 
     <!-- Features Section -->
-    <section id="features" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="features" class="py-20 bg-white relative overflow-hidden">
+        <!-- Floating Stats Badges -->
+        <div class="absolute inset-0 pointer-events-none">
+            <div class="absolute top-20 left-10 bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full text-sm font-semibold shadow-lg animate-pulse">
+                <i class="fas fa-users mr-2"></i>10K+ Users
+            </div>
+            <div class="absolute top-40 right-20 bg-purple-100 text-purple-800 px-4 py-2 rounded-full text-sm font-semibold shadow-lg animate-pulse" style="animation-delay: 1s;">
+                <i class="fas fa-book mr-2"></i>50K+ Manhwa
+            </div>
+            <div class="absolute bottom-40 left-20 bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold shadow-lg animate-pulse" style="animation-delay: 2s;">
+                <i class="fas fa-film mr-2"></i>100K+ Movies
+            </div>
+            <div class="absolute bottom-20 right-10 bg-orange-100 text-orange-800 px-4 py-2 rounded-full text-sm font-semibold shadow-lg animate-pulse" style="animation-delay: 0.5s;">
+                <i class="fas fa-star mr-2"></i>4.9★ Rating
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                     Everything You Need to Stay Organized
@@ -174,7 +341,7 @@
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Feature 1 -->
-                <div class="bg-gray-50 p-8 rounded-xl hover:shadow-lg transition-shadow duration-300">
+                <div class="feature-card bg-gray-50 p-8 rounded-xl">
                     <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
                         <i class="fas fa-book-open text-indigo-600 text-xl"></i>
                     </div>
@@ -185,7 +352,7 @@
                 </div>
 
                 <!-- Feature 2 -->
-                <div class="bg-gray-50 p-8 rounded-xl hover:shadow-lg transition-shadow duration-300">
+                <div class="feature-card bg-gray-50 p-8 rounded-xl">
                     <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
                         <i class="fas fa-film text-purple-600 text-xl"></i>
                     </div>
@@ -196,7 +363,7 @@
                 </div>
 
                 <!-- Feature 3 -->
-                <div class="bg-gray-50 p-8 rounded-xl hover:shadow-lg transition-shadow duration-300">
+                <div class="feature-card bg-gray-50 p-8 rounded-xl">
                     <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
                         <i class="fas fa-star text-green-600 text-xl"></i>
                     </div>
@@ -207,7 +374,7 @@
                 </div>
 
                 <!-- Feature 4 -->
-                <div class="bg-gray-50 p-8 rounded-xl hover:shadow-lg transition-shadow duration-300">
+                <div class="feature-card bg-gray-50 p-8 rounded-xl">
                     <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
                         <i class="fas fa-heart text-blue-600 text-xl"></i>
                     </div>
@@ -218,7 +385,7 @@
                 </div>
 
                 <!-- Feature 5 -->
-                <div class="bg-gray-50 p-8 rounded-xl hover:shadow-lg transition-shadow duration-300">
+                <div class="feature-card bg-gray-50 p-8 rounded-xl">
                     <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
                         <i class="fas fa-search text-orange-600 text-xl"></i>
                     </div>
@@ -229,7 +396,7 @@
                 </div>
 
                 <!-- Feature 6 -->
-                <div class="bg-gray-50 p-8 rounded-xl hover:shadow-lg transition-shadow duration-300">
+                <div class="feature-card bg-gray-50 p-8 rounded-xl">
                     <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
                         <i class="fas fa-chart-line text-red-600 text-xl"></i>
                     </div>
@@ -243,8 +410,24 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="bg-indigo-600 py-16">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <section class="bg-indigo-600 py-16 relative overflow-hidden">
+        <!-- Floating CTA Elements -->
+        <div class="absolute inset-0 pointer-events-none">
+            <div class="absolute top-10 left-10 text-white opacity-10 animate-bounce" style="animation-delay: 0s;">
+                <i class="fas fa-star text-4xl"></i>
+            </div>
+            <div class="absolute top-20 right-20 text-white opacity-10 animate-bounce" style="animation-delay: 1s;">
+                <i class="fas fa-heart text-3xl"></i>
+            </div>
+            <div class="absolute bottom-20 left-20 text-white opacity-10 animate-bounce" style="animation-delay: 2s;">
+                <i class="fas fa-book-open text-4xl"></i>
+            </div>
+            <div class="absolute bottom-10 right-10 text-white opacity-10 animate-bounce" style="animation-delay: 0.5s;">
+                <i class="fas fa-film text-3xl"></i>
+            </div>
+        </div>
+
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
             <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
                 Ready to Organize Your Entertainment?
             </h2>

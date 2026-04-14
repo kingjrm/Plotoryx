@@ -19,14 +19,14 @@
             left: 0;
             width: 100%;
             height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: white;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             z-index: 9999;
             opacity: 1;
-            transition: opacity 1s ease-out;
+            transition: opacity 0.8s ease-out;
         }
 
         #intro.hidden {
@@ -36,59 +36,56 @@
 
         .logo-container {
             text-align: center;
-            animation: logoIntro 2s ease-out forwards;
+            animation: logoIntro 1.5s ease-out forwards;
         }
 
         .logo-image {
-            width: 120px;
-            height: 120px;
+            width: 100px;
+            height: 100px;
             margin: 0 auto 20px;
-            animation: logoPulse 2s ease-in-out infinite;
+            animation: logoFade 2s ease-in-out infinite;
         }
 
         .logo-text {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 700;
-            color: white;
-            margin-bottom: 10px;
+            color: #1f2937;
+            margin-bottom: 8px;
             opacity: 0;
-            animation: textFadeIn 1s ease-out 1s forwards;
+            animation: textFadeIn 0.8s ease-out 0.5s forwards;
         }
 
         .tagline {
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            color: #6b7280;
             opacity: 0;
-            animation: textFadeIn 1s ease-out 1.5s forwards;
+            animation: textFadeIn 0.8s ease-out 1s forwards;
         }
 
         @keyframes logoIntro {
             0% {
-                transform: scale(0.5) rotate(-10deg);
+                transform: scale(0.8);
                 opacity: 0;
             }
-            50% {
-                transform: scale(1.1) rotate(5deg);
-            }
             100% {
-                transform: scale(1) rotate(0deg);
+                transform: scale(1);
                 opacity: 1;
             }
         }
 
-        @keyframes logoPulse {
+        @keyframes logoFade {
             0%, 100% {
-                transform: scale(1);
+                opacity: 1;
             }
             50% {
-                transform: scale(1.05);
+                opacity: 0.7;
             }
         }
 
         @keyframes textFadeIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(15px);
             }
             to {
                 opacity: 1;
@@ -100,7 +97,7 @@
         #main-content {
             opacity: 0;
             transform: translateY(20px);
-            transition: all 1s ease-out;
+            transition: all 0.8s ease-out;
         }
 
         #main-content.show {
@@ -287,15 +284,15 @@
             const intro = document.getElementById('intro');
             const mainContent = document.getElementById('main-content');
 
-            // Show intro for 3 seconds, then transition
+            // Show intro for 2.5 seconds, then transition
             setTimeout(function() {
                 intro.classList.add('hidden');
 
                 // Show main content after intro fades out
                 setTimeout(function() {
                     mainContent.classList.add('show');
-                }, 500); // Wait for intro fade to complete
-            }, 3000); // Show intro for 3 seconds
+                }, 400); // Wait for intro fade to complete
+            }, 2500); // Show intro for 2.5 seconds
         });
 
         // Add smooth scrolling for anchor links

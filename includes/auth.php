@@ -220,4 +220,62 @@ function resetPassword($email, $newPassword) {
         return false;
     }
 }
+
+// Function to get user preferences
+function getUserPreferences($userId) {
+    global $pdo;
+    try {
+        $stmt = $pdo->prepare("SELECT preference_key, preference_value FROM user_preferences WHERE user_id = ?");
+        $stmt->execute([$userId]);
+        $preferences = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
+        
+        // Set defaults if not set
+        $defaults = [
+            'default_entry_type' => 'manhwa',
+            'items_per_page' => '12',
+            'theme' => 'light',
+            'show_ratings' => '1',
+            'auto_save' => '0'
+        ];
+        
+        return array_merge($defaults, $preferences);
+    } catch (PDOException $e) {
+        // Return defaults if table doesn't exist or error
+        return [
+            'default_entry_type' => 'manhwa',
+            'items_per_page' => '12',
+            'theme' => 'light',
+            'show_ratings' => '1',
+            'auto_save' => '0'
+        ];
+    }
+}
+
+// Function to set user preference
+function setUserPreference($userId, $key, $value) {
+    global $pdo;
+    try {
+        $stmt = $pdo->prepare("INSERT INTO user_preferences (user_id, preference_key, preference_value) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE preference_value = ?");
+        $stmt->execute([$userId, $key, $value, $value]);
+        return true;
+    } catch (PDOException $e) {
+        return false;
+    }
+}
+
+// Function to set multiple user preferences
+function setUserPreferences($userId, $preferences) {
+    global $pdo;
+    try {
+        $pdo->beginTransaction();
+        foreach ($preferences as $key => $value) {
+            setUserPreference($userId, $key, $value);
+        }
+        $pdo->commit();
+        return true;
+    } catch (PDOException $e) {
+        $pdo->rollBack();
+        return false;
+    }
+}
 ?>

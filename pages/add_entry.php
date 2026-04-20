@@ -2,8 +2,9 @@
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/db.php';
 
-// Get type from URL parameter to pre-select
-$preselectedType = isset($_GET['type']) ? $_GET['type'] : '';
+// Get type from URL parameter to pre-select, otherwise use user preference
+$userPreferences = getUserPreferences($_SESSION['user_id']);
+$preselectedType = isset($_GET['type']) ? $_GET['type'] : $userPreferences['default_entry_type'];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $type = $_POST['type'];

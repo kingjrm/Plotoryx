@@ -7,14 +7,8 @@ $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
 $stmt->execute([$userId]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Get user preferences (load from session or use defaults)
-$userPreferences = $_SESSION['preferences'] ?? [
-    'default_entry_type' => 'manhwa',
-    'items_per_page' => 12,
-    'theme' => 'light',
-    'show_ratings' => true,
-    'auto_save' => false
-];
+// Get user preferences (from database)
+$userPreferences = getUserPreferences($userId);
 
 // Handle form submissions
 $message = '';
@@ -137,20 +131,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $showRatings = isset($_POST['show_ratings']) ? 1 : 0;
         $autoSave = isset($_POST['auto_save']) ? 1 : 0;
 
-        // For now, we'll store preferences in session (later we can add a preferences table)
-        $_SESSION['preferences'] = [
+        // Store preferences in database
+        $preferences = [
             'default_entry_type' => $defaultEntryType,
-            'items_per_page' => $itemsPerPage,
+            'items_per_page' => (string)$itemsPerPage,
             'theme' => $theme,
-            'show_ratings' => $showRatings,
-            'auto_save' => $autoSave
+            'show_ratings' => (string)$showRatings,
+            'auto_save' => (string)$autoSave
         ];
 
-        $message = 'Preferences updated successfully!';
-        $messageType = 'success';
-
-        // Update the userPreferences array
-        $userPreferences = $_SESSION['preferences'];
+        if (setUserPreferences($userId, $preferences)) {
+            $message = 'Preferences updated successfully!';
+            $messageType = 'success';
+            // Update the userPreferences array
+            $userPreferences = getUserPreferences($userId);
+        } else {
+            $message = 'Failed to update preferences.';
+            $messageType = 'error';
+        }
     }
 }
 ?>
@@ -413,10 +411,10 @@ $activeTab = isset($_GET['tab']) ? $_GET['tab'] : 'profile';
             <div>
                 <label for="items_per_page" class="block text-sm font-medium text-gray-700 mb-2">Items Per Page</label>
                 <select id="items_per_page" name="items_per_page" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors">
-                    <option value="6" <?php echo $userPreferences['items_per_page'] == 6 ? 'selected' : ''; ?>>6 items</option>
-                    <option value="12" <?php echo $userPreferences['items_per_page'] == 12 ? 'selected' : ''; ?>>12 items</option>
-                    <option value="24" <?php echo $userPreferences['items_per_page'] == 24 ? 'selected' : ''; ?>>24 items</option>
-                    <option value="48" <?php echo $userPreferences['items_per_page'] == 48 ? 'selected' : ''; ?>>48 items</option>
+                    <option value="6" <?php echo $userPreferences['items_per_page'] == '6' ? 'selected' : ''; ?>>6 items</option>
+                    <option value="12" <?php echo $userPreferences['items_per_page'] == '12' ? 'selected' : ''; ?>>12 items</option>
+                    <option value="24" <?php echo $userPreferences['items_per_page'] == '24' ? 'selected' : ''; ?>>24 items</option>
+                    <option value="48" <?php echo $userPreferences['items_per_page'] == '48' ? 'selected' : ''; ?>>48 items</option>
                 </select>
             </div>
 
@@ -460,7 +458,7 @@ $activeTab = isset($_GET['tab']) ? $_GET['tab'] : 'profile';
                 <label class="block text-sm font-medium text-gray-700">Display Options</label>
 
                 <div class="flex items-center p-4 border border-gray-200 rounded-lg">
-                    <input type="checkbox" id="show_ratings" name="show_ratings" <?php echo $userPreferences['show_ratings'] ? 'checked' : ''; ?> class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                    <input type="checkbox" id="show_ratings" name="show_ratings" <?php echo $userPreferences['show_ratings'] === '1' ? 'checked' : ''; ?> class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
                     <label for="show_ratings" class="ml-3 block text-sm text-gray-900">
                         <span class="font-medium">Show ratings on entry cards</span>
                         <p class="text-gray-500">Display star ratings on your entries</p>
@@ -468,7 +466,7 @@ $activeTab = isset($_GET['tab']) ? $_GET['tab'] : 'profile';
                 </div>
 
                 <div class="flex items-center p-4 border border-gray-200 rounded-lg">
-                    <input type="checkbox" id="auto_save" name="auto_save" <?php echo $userPreferences['auto_save'] ? 'checked' : ''; ?> class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                    <input type="checkbox" id="auto_save" name="auto_save" <?php echo $userPreferences['auto_save'] === '1' ? 'checked' : ''; ?> class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
                     <label for="auto_save" class="ml-3 block text-sm text-gray-900">
                         <span class="font-medium">Auto-save form data</span>
                         <p class="text-gray-500">Automatically save your progress (coming soon)</p>

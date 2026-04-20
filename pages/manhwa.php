@@ -71,6 +71,15 @@ try {
                 <?php if ($entry['rating']): ?>
                     <p class="text-xs">Rating: <?php echo $entry['rating']; ?>/10</p>
                 <?php endif; ?>
+                <?php if ($entry['date_started']): ?>
+                    <p class="text-xs">Started: <?php echo date('M j, Y', strtotime($entry['date_started'])); ?></p>
+                <?php endif; ?>
+                <?php if ($entry['date_ended']): ?>
+                    <p class="text-xs">Ended: <?php echo date('M j, Y', strtotime($entry['date_ended'])); ?></p>
+                <?php endif; ?>
+                <?php if ($entry['link']): ?>
+                    <p class="text-xs"><a href="<?php echo htmlspecialchars($entry['link']); ?>" target="_blank" class="text-blue-600 hover:text-blue-800">View Link</a></p>
+                <?php endif; ?>
                 <?php if ($entry['remarks']): ?>
                     <p class="text-xs text-gray-600 mt-1"><?php echo htmlspecialchars(substr($entry['remarks'], 0, 30)); ?>...</p>
                 <?php endif; ?>
@@ -82,6 +91,9 @@ try {
                                 data-status="<?php echo $entry['status']; ?>" 
                                 data-rating="<?php echo $entry['rating'] ?: ''; ?>" 
                                 data-remarks="<?php echo htmlspecialchars($entry['remarks']); ?>"
+                                data-date-started="<?php echo $entry['date_started'] ?: ''; ?>"
+                                data-date-ended="<?php echo $entry['date_ended'] ?: ''; ?>"
+                                data-link="<?php echo htmlspecialchars($entry['link'] ?: ''); ?>"
                                 class="flex items-center px-3 py-1.5 text-xs bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors">
                             <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>

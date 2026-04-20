@@ -54,11 +54,29 @@ $entries = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <?php echo $entry['rating']; ?>/10
                         </div>
                     <?php endif; ?>
+                    <?php if ($entry['date_started']): ?>
+                        <p class="text-xs text-gray-600">Started: <?php echo date('M j, Y', strtotime($entry['date_started'])); ?></p>
+                    <?php endif; ?>
+                    <?php if ($entry['date_ended']): ?>
+                        <p class="text-xs text-gray-600">Ended: <?php echo date('M j, Y', strtotime($entry['date_ended'])); ?></p>
+                    <?php endif; ?>
+                    <?php if ($entry['link']): ?>
+                        <p class="text-xs text-gray-600"><a href="<?php echo htmlspecialchars($entry['link']); ?>" target="_blank" class="text-blue-600 hover:text-blue-800">View Link</a></p>
+                    <?php endif; ?>
                     <?php if ($entry['remarks']): ?>
                         <p class="text-xs text-gray-600 mt-2"><?php echo htmlspecialchars(substr($entry['remarks'], 0, 40)); ?><?php echo strlen($entry['remarks']) > 40 ? '...' : ''; ?></p>
                     <?php endif; ?>
                     <div class="flex space-x-2 mt-3">
-                        <button onclick="openModal(<?php echo $entry['id']; ?>, '<?php echo addslashes($entry['title']); ?>', '<?php echo $entry['status']; ?>', '<?php echo $entry['rating']; ?>', '<?php echo addslashes($entry['remarks']); ?>')" class="flex-1 px-3 py-1.5 text-xs bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">
+                        <button onclick="openModal(this)" 
+                                data-id="<?php echo $entry['id']; ?>" 
+                                data-title="<?php echo htmlspecialchars($entry['title']); ?>" 
+                                data-status="<?php echo $entry['status']; ?>" 
+                                data-rating="<?php echo $entry['rating'] ?: ''; ?>" 
+                                data-remarks="<?php echo htmlspecialchars($entry['remarks']); ?>"
+                                data-date-started="<?php echo $entry['date_started'] ?: ''; ?>"
+                                data-date-ended="<?php echo $entry['date_ended'] ?: ''; ?>"
+                                data-link="<?php echo htmlspecialchars($entry['link'] ?: ''); ?>"
+                                class="flex-1 px-3 py-1.5 text-xs bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">
                             Edit
                         </button>
                         <form method="POST" action="delete_entry.php" class="flex-1">

@@ -54,6 +54,15 @@ $entries = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <?php echo $entry['rating']; ?>/10
                         </div>
                     <?php endif; ?>
+                    <?php if ($entry['date_started']): ?>
+                        <p class="text-xs text-gray-600">Started: <?php echo date('M j, Y', strtotime($entry['date_started'])); ?></p>
+                    <?php endif; ?>
+                    <?php if ($entry['date_ended']): ?>
+                        <p class="text-xs text-gray-600">Ended: <?php echo date('M j, Y', strtotime($entry['date_ended'])); ?></p>
+                    <?php endif; ?>
+                    <?php if ($entry['link']): ?>
+                        <p class="text-xs text-gray-600"><a href="<?php echo htmlspecialchars($entry['link']); ?>" target="_blank" class="text-blue-600 hover:text-blue-800">View Link</a></p>
+                    <?php endif; ?>
                     <?php if ($entry['remarks']): ?>
                         <p class="text-xs text-gray-600 mt-2"><?php echo htmlspecialchars(substr($entry['remarks'], 0, 40)); ?><?php echo strlen($entry['remarks']) > 40 ? '...' : ''; ?></p>
                     <?php endif; ?>

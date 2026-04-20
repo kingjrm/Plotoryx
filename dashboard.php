@@ -327,6 +327,18 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
                                         <option value="10">10 - Excellent</option>
                                     </select>
                                 </div>
+
+                                <div>
+                                    <label for="editDateStarted" class="block text-sm font-medium text-gray-700 mb-2">Date Started</label>
+                                    <input type="date" id="editDateStarted" name="date_started"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-1 focus:ring-gray-900 focus:border-gray-900 transition-colors text-sm">
+                                </div>
+
+                                <div>
+                                    <label for="editDateEnded" class="block text-sm font-medium text-gray-700 mb-2">Date Ended</label>
+                                    <input type="date" id="editDateEnded" name="date_ended"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-1 focus:ring-gray-900 focus:border-gray-900 transition-colors text-sm">
+                                </div>
                             </div>
 
                             <!-- Right Column - Remarks and Image -->
@@ -336,6 +348,13 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
                                     <textarea id="editRemarks" name="remarks" rows="4"
                                               class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-1 focus:ring-gray-900 focus:border-gray-900 transition-colors resize-none text-sm"
                                               placeholder="Add your thoughts, reviews, or notes about this entry..."></textarea>
+                                </div>
+
+                                <div>
+                                    <label for="editLink" class="block text-sm font-medium text-gray-700 mb-2">Reading/Watching Link</label>
+                                    <input type="url" id="editLink" name="link"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-1 focus:ring-gray-900 focus:border-gray-900 transition-colors text-sm"
+                                           placeholder="https://example.com">
                                 </div>
 
                                 <div>
@@ -473,10 +492,29 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
                                         <option value="10">10 - Excellent</option>
                                     </select>
                                 </div>
+
+                                <div>
+                                    <label for="addDateStarted" class="block text-sm font-medium text-gray-700 mb-2">Date Started</label>
+                                    <input type="date" id="addDateStarted" name="date_started"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-1 focus:ring-gray-900 focus:border-gray-900 transition-colors text-sm">
+                                </div>
+
+                                <div>
+                                    <label for="addDateEnded" class="block text-sm font-medium text-gray-700 mb-2">Date Ended</label>
+                                    <input type="date" id="addDateEnded" name="date_ended"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-1 focus:ring-gray-900 focus:border-gray-900 transition-colors text-sm">
+                                </div>
                             </div>
 
                             <!-- Right Column - Image and Remarks -->
                             <div class="space-y-4">
+                                <div>
+                                    <label for="addLink" class="block text-sm font-medium text-gray-700 mb-2">Reading/Watching Link</label>
+                                    <input type="url" id="addLink" name="link"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-1 focus:ring-gray-900 focus:border-gray-900 transition-colors text-sm"
+                                           placeholder="https://example.com">
+                                </div>
+
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Cover Image</label>
                                     <div class="border border-dashed border-gray-300 rounded p-4 text-center hover:border-gray-400 transition-colors">
@@ -530,6 +568,9 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
             const status = button.getAttribute('data-status');
             const rating = button.getAttribute('data-rating');
             const remarks = button.getAttribute('data-remarks');
+            const dateStarted = button.getAttribute('data-date-started');
+            const dateEnded = button.getAttribute('data-date-ended');
+            const link = button.getAttribute('data-link');
 
             document.getElementById('editId').value = id;
             document.getElementById('editTitle').value = title;
@@ -545,6 +586,9 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
 
             document.getElementById('editRating').value = rating || '';
             document.getElementById('editRemarks').value = remarks || '';
+            document.getElementById('editDateStarted').value = dateStarted || '';
+            document.getElementById('editDateEnded').value = dateEnded || '';
+            document.getElementById('editLink').value = link || '';
 
             // Reset image preview
             document.getElementById('editImagePreview').classList.add('hidden');

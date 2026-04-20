@@ -11,6 +11,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $status = $_POST['status'];
     $rating = $_POST['rating'] ?: null;
     $remarks = trim($_POST['remarks']);
+    $date_started = $_POST['date_started'] ?: null;
+    $date_ended = $_POST['date_ended'] ?: null;
+    $link = trim($_POST['link']) ?: null;
     $image = '';
 
     // Validation
@@ -22,6 +25,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $error = "Invalid status";
     } elseif ($rating && (!is_numeric($rating) || $rating < 1 || $rating > 10)) {
         $error = "Rating must be between 1 and 10";
+    } elseif ($date_started && !strtotime($date_started)) {
+        $error = "Invalid start date format";
+    } elseif ($date_ended && !strtotime($date_ended)) {
+        $error = "Invalid end date format";
+    } elseif ($date_started && $date_ended && strtotime($date_started) > strtotime($date_ended)) {
+        $error = "Start date cannot be after end date";
+    } elseif ($link && !filter_var($link, FILTER_VALIDATE_URL)) {
+        $error = "Invalid URL format for link";
     } else {
         if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
             $uploadResult = uploadImage($_FILES['image']);
@@ -34,8 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if (!isset($error)) {
             try {
-                $stmt = $pdo->prepare("INSERT INTO entries (user_id, type, title, image, status, rating, remarks) VALUES (?, ?, ?, ?, ?, ?, ?)");
-                $stmt->execute([$_SESSION['user_id'], $type, $title, $image, $status, $rating, $remarks]);
+                $stmt = $pdo->prepare("INSERT INTO entries (user_id, type, title, image, status, rating, remarks, date_started, date_ended, link) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->execute([$_SESSION['user_id'], $type, $title, $image, $status, $rating, $remarks, $date_started, $date_ended, $link]);
                 header("Location: ../dashboard.php?page=" . ($type == 'manhwa' ? 'manhwa' : 'movies'));
                 exit();
             } catch (PDOException $e) {

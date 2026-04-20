@@ -26,6 +26,9 @@ CREATE TABLE entries (
     rating INT CHECK (rating >= 1 AND rating <= 10),
     remarks TEXT,
     favorite BOOLEAN DEFAULT FALSE,
+    date_started DATE,
+    date_ended DATE,
+    link VARCHAR(500),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );

@@ -387,6 +387,18 @@ try {
                                 </span>
                             <?php endif; ?>
                         </div>
+                        <?php if ($entry['date_started'] || $entry['date_ended']): ?>
+                            <div class="text-xs text-gray-500 mt-1">
+                                <?php if ($entry['date_started']): ?>Started: <?php echo date('M j, Y', strtotime($entry['date_started'])); ?><?php endif; ?>
+                                <?php if ($entry['date_started'] && $entry['date_ended']): ?> • <?php endif; ?>
+                                <?php if ($entry['date_ended']): ?>Ended: <?php echo date('M j, Y', strtotime($entry['date_ended'])); ?><?php endif; ?>
+                            </div>
+                        <?php endif; ?>
+                        <?php if ($entry['link']): ?>
+                            <div class="text-xs text-blue-600 mt-1">
+                                <a href="<?php echo htmlspecialchars($entry['link']); ?>" target="_blank">View Link</a>
+                            </div>
+                        <?php endif; ?>
                         <?php if ($entry['remarks']): ?>
                             <p class="text-xs text-gray-600 mt-2 line-clamp-2"><?php echo htmlspecialchars(substr($entry['remarks'], 0, 60)); ?>...</p>
                         <?php endif; ?>
